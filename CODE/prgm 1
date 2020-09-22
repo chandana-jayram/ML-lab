@@ -1,34 +1,23 @@
 import pandas as pd
-import numpy as np
- 
-#to read the data in the csv file
+
 data = pd.read_csv("/content/sample_data/EnjoySport.csv", header=None)
-print(data,"n")
- 
-#making an array of all the attributes
-d = np.array(data)[:,:-1]
-print("n The attributes are: ",d)
- 
-#segragating the target that has positive and negative examples
-target = np.array(data)[:,-1]
-print("n The target is: ",target)
- 
-#training function to implement find-s algorithm
-def train(c,t):
-    for i, val in enumerate(t):
-        if val == "Yes":
-            specific_hypothesis = c[i].copy()
-            break
-             
-    for i, val in enumerate(c):
-        if t[i] == "Yes":
-            for x in range(len(specific_hypothesis)):
-                if val[x] != specific_hypothesis[x]:
-                    specific_hypothesis[x] = '?'
-                else:
-                    pass
-                 
-    return specific_hypothesis
- 
-#obtaining the final hypothesis
-print("n The final hypothesis is:",train(d,target))
+print(data)
+
+number_of_attributes=len(data.columns)-1
+
+hypothesis=['0']*number_of_attributes
+
+print("H-0:",hypothesis)
+
+for index, row in data.iterrows():
+  if row[len(row)-1]== 'Yes':
+    for colIndex in range(len(row)-1):
+      if hypothesis[colIndex]=='0':
+        hypothesis[colIndex]=row[colIndex]
+      elif hypothesis[colIndex] != row[colIndex]:
+        hypothesis[colIndex]='?'
+      else:
+        pass
+    print("H-",str(index+1),":",hypothesis)   
+
+print("S:",hypothesis)  
